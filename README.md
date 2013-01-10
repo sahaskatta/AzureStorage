@@ -60,5 +60,5 @@ storage = AzureStorage()
 Full documentation on what each method does can be found: [Django File Storage API](https://docs.djangoproject.com/en/dev/ref/files/storage/#the-storage-class)
 
 ## Additional Resources
-[Azure Python SDK](https://github.com/WindowsAzure/azure-sdk-for-python)
-[Django Custom File Storage](https://docs.djangoproject.com/en/dev/howto/custom-file-storage/)
+- [Azure Python SDK](https://github.com/WindowsAzure/azure-sdk-for-python)
+- [Django Custom File Storage](https://docs.djangoproject.com/en/dev/howto/custom-file-storage/)
