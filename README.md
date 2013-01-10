@@ -57,6 +57,7 @@ storage = AzureStorage()
 
 **Note**: The following methods have been implemented:
 `save`, `delete`, `exists`, `listdir`, `size`, `url`, `modified_time`
+
 Full documentation on what each method does can be found: [Django File Storage API](https://docs.djangoproject.com/en/dev/ref/files/storage/#the-storage-class)
 
 ## Additional Resources
