@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.core.files.storage import Storage
+from django.core.files.base import ContentFile
 
+import azure
 from azure.storage import *
-from tempfile import SpooledTemporaryFile
 from datetime import datetime
 import os, mimetypes
 
@@ -18,9 +19,7 @@ class AzureStorage(Storage):
 
     def _open(self, name, mode='rb'):
         data = self.blob_service.get_blob(self.container, name)
-        temp_file = SpooledTemporaryFile(mode='wb')
-        temp_file.write(data)
-        return temp_file
+        return ContentFile(data)
 
     def _save(self, name, content):
         content.open(mode="rb")
@@ -31,18 +30,15 @@ class AzureStorage(Storage):
         return name
 
     def delete(self, name):
-        try:
             self.blob_service.delete_blob(self.container, name)
-        except: pass
-        return name
 
     def exists(self, name):
-        blob = self.blob_service.list_blobs(self.container, prefix=name)
-        if (len(blob) == 0) or (blob.blobs[0].name != name):
+        try:
+            self.blob_service.get_blob_properties(self.container, name)
+            return True
+        except:
             return False
 
-        else:
-            return True
 
     def listdir(self, path):
         dirs = []
@@ -55,7 +51,7 @@ class AzureStorage(Storage):
         return (dirs, files)
 
     def size(self, name):
-        properties = self.get_blob_properties(self.container, name)
+        properties = self.blob_service.get_blob_properties(self.container, name)
         return properties.get('content-length')
 
     def url(self, name):
